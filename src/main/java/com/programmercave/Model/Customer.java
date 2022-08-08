@@ -1,6 +1,6 @@
 package com.programmercave.Model;
 
-//This is model class of customer.
+//This is model class of customer .
 public class Customer {
 
 	private String name;
