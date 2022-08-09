@@ -7,7 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.programmercave.Model.Customer;
-import com.programmercave.validator.Validator;
+import com.programmercave.Validator.Validator;
+import com.programmercave.Exception.ShoppingMartException;
 /**
  * Hello world!
  *
@@ -18,7 +19,15 @@ public class App
 	
     public static void main( String[] args )
     {
-    	calculateBillAmount();
+    	try
+    	{
+    		App.calculateBillAmount();
+    	}
+    	catch (Exception e)
+    	{
+    		LOGGER.error(e);
+    	}
+ 
     }
     
     static ArrayList<Customer> listOfCustomers = new ArrayList<>();
@@ -36,7 +45,7 @@ public class App
 	 * This method is used to give validate customer data.
 	 */
 	private static Customer ValidateCustomer() throws ConfigurationException {
-		Customer customerOne = Tester.listOfCustomers.get(0);
+		Customer customerOne = App.listOfCustomers.get(0);
 		String response = new Validator().validate(customerOne);
 		LOGGER.info(new Configurations().properties("messages.properties").getProperty(response));
 		return customerOne;
@@ -53,7 +62,7 @@ public class App
 		
 		Customer customerOne = ValidateCustomer();
 		if(customerOne.getCartAmount()<0) {
-			LOGGER.info(new Configurations().properties("messages.properties").getProperty("Tester.INVALID_CART_AMOUNT"));
+			LOGGER.info(new Configurations().properties("messages.properties").getProperty("App.INVALID_CART_AMOUNT"));
 		}
 		
 		if(customerOne.getMembership().equals("Silver")) {
@@ -61,7 +70,7 @@ public class App
 			Integer billAmount = customerOne.getCartAmount()*discountInPercent;
 			Double FinalAmount = customerOne.getCartAmount() - (billAmount*0.01);
 			
-			String message = new Configurations().properties("messages.properties").getProperty("Tester.BILLING_SUCCESS")+":"+FinalAmount;
+			String message = new Configurations().properties("messages.properties").getProperty("App.BILLING_SUCCESS")+":"+FinalAmount;
 			System.out.println(message);
 			LOGGER.info(message);
 		}  
