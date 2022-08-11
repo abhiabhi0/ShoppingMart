@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.programmercave.Model.Customer;
 import com.programmercave.Validator.Validator;
-import com.programmercave.Exception.ShoppingMartException;
 /**
  * Hello world!
  *
@@ -59,7 +58,7 @@ public class App
 		// Silver 5%
 		// Gold 7% discount on Amount > 5000
 		//Platinum 10% discount on Amount > 5000
-		
+				
 		Customer customerOne = ValidateCustomer();
 		if(customerOne.getCartAmount()<0) {
 			LOGGER.info(new Configurations().properties("messages.properties").getProperty("App.INVALID_CART_AMOUNT"));
@@ -67,7 +66,25 @@ public class App
 		
 		if(customerOne.getMembership().equals("Silver")) {
 			Integer discountInPercent = 5;
-			Integer billAmount = customerOne.getCartAmount()*discountInPercent;
+			Integer billAmount = customerOne.getCartAmount() * discountInPercent;
+			Double FinalAmount = customerOne.getCartAmount() - (billAmount*0.01);
+			
+			String message = new Configurations().properties("messages.properties").getProperty("App.BILLING_SUCCESS")+":"+FinalAmount;
+			System.out.println(message);
+			LOGGER.info(message);
+		}
+		else if(customerOne.getMembership().equals("Gold")) {
+			Integer discountInPercent = 7;
+			Integer billAmount = customerOne.getCartAmount() * discountInPercent;
+			Double FinalAmount = customerOne.getCartAmount() - (billAmount*0.01);
+			
+			String message = new Configurations().properties("messages.properties").getProperty("App.BILLING_SUCCESS")+":"+FinalAmount;
+			System.out.println(message);
+			LOGGER.info(message);
+		}  
+		else if(customerOne.getMembership().equals("Platinum")) {
+			Integer discountInPercent = 10;
+			Integer billAmount = customerOne.getCartAmount() * discountInPercent;
 			Double FinalAmount = customerOne.getCartAmount() - (billAmount*0.01);
 			
 			String message = new Configurations().properties("messages.properties").getProperty("App.BILLING_SUCCESS")+":"+FinalAmount;
